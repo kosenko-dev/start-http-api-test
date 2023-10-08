@@ -5,32 +5,32 @@ const { faker } = require('@faker-js/faker');
 const { url } = config
 
 // контроллер user
-const user = {
+const book = {
     // Функция авторизации
-    create: (payload) => {
+    delete: (payload) => {
         return supertest(url)
-            .post('/Account/v1/User')
+            .delete(`/BookStore/v1/Book`)
             .set('Accept', 'application/json')
             .send(payload)
     },
 
-    delete: (uuid) => {
+    put: (payload) => {
         return supertest(url)
-            .delete(`/Account/v1/User/${uuid}`)
+            .put(`/BookStore/v1/Book?ISBN=${isbn}`)
+            .set('Accept', 'application/json')
+            .send(payload)
+    },
+
+    get: (isbn) => {
+        return supertest(url)
+            .get(`/BookStore/v1/Book?ISBN=${isbn}`)
             .set('Accept', 'application/json')
             .send()
     },
 
-    get: (uuid) => {
-        return supertest(url)
-            .get(`/Account/v1/User/${uuid}`)
-            .set('Accept', 'application/json')
-            .send()
-    },
-
-    randomUserName() {
-        return `${faker.person.lastName()}-${faker.person.firstName()}`;
+    randomISBN() {
+        return faker.commerce.isbn({ variant : 13, separator:""});
     }
 }
 
-export default user
+export default book
